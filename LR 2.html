@@ -1,0 +1,73 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+        <title>Перевірка формату дійсного числа</title>
+		<style>
+			form.form-example {
+			display: table;
+			}
+
+			div.form-example {
+			display: table-row;
+			}
+
+			label,
+			input {
+			display: table-cell;
+			margin-bottom: 10px;
+			}
+
+			label {
+			padding-right: 10px;
+			}
+
+            .error-message {
+            color: red;
+            }
+		</style>
+	</head>
+	<body>
+		<form method="get" action="/cgi-bin/test?schos" class="form-example">
+		<div class="form-example">
+		    <label for="name">Надрукуйте дійсне число: </label>
+		    <input type="text" name="name" id="name" required />
+        </div>
+		<div class="form-example">
+		    <input type="submit" value="Перевірити" />
+        </div>
+		</form>
+
+    <!-- Сообщение об ошибке -->
+    <div id="error-message" class="error-message">Невірний формат числа.</div>
+
+    <script>
+        var inputField = document.getElementById('name');
+        var errorMessage = document.getElementById('error-message');
+
+        // Функция для проверки введенного значения и отображения сообщения об ошибке
+        function validateInput() {
+            var inputValue = inputField.value;
+            var regex = /^[-+]?\d*([.,]?\d+)?$/;
+            if (!regex.test(inputValue)) {
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        }
+
+        // Добавляем обработчик события input на текстовое поле
+        inputField.addEventListener('input', validateInput);
+
+        // Добавляем обработчик события submit на форму для предотвращения отправки при невалидном значении
+        document.querySelector('form.form-example').addEventListener('submit', function(event) {
+            if (!validateInput()) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+
+	</body>
+</html>
